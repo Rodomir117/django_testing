@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 
-from .base_test import BaseTest
+from notes.tests.base_test import BaseTest
 
 User = get_user_model()
 

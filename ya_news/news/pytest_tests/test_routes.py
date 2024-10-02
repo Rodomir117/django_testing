@@ -3,7 +3,7 @@ from http import HTTPStatus
 import pytest
 from pytest_django.asserts import assertRedirects
 
-from .conftest import ANONYMOUS, AUTHOR, READER
+from news.pytest_tests.conftest import ANONYMOUS, AUTHOR, READER
 
 pytestmark = [pytest.mark.django_db]
 

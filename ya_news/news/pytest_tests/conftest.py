@@ -4,6 +4,7 @@ import pytest
 from django.conf import settings
 from django.urls import reverse
 from django.utils import timezone
+
 from news.models import Comment, News
 
 ANONYMOUS = pytest.lazy_fixture('client')
@@ -14,7 +15,7 @@ TITLE = 'Заголовок'
 TEXT = 'Какой-то текст'
 NEW_TEXT = 'Какой-то новый текст'
 COMMENTS_COUNT = 3
-COUTN_ADD = 1
+COUNT_ADD = 1
 
 
 @pytest.fixture
@@ -59,7 +60,7 @@ def bulk_news_creation(author):
             title=f'{TITLE} {index}',
             text=TEXT,
         )
-        for index in range(settings.NEWS_COUNT_ON_HOME_PAGE + COUTN_ADD)
+        for index in range(settings.NEWS_COUNT_ON_HOME_PAGE + COUNT_ADD)
     )
 
 
@@ -74,16 +75,15 @@ def comment(author, news):
 
 
 @pytest.fixture
-def list_comments(author, news):
+def multiple_comments(author, news):
     for index in range(COMMENTS_COUNT):
         comment = Comment.objects.create(
             author=author,
             news=news,
-            text=f'{TEXT} {index}'
+            text=f'{TEXT} {index}',
+            created=f'{timezone.now()} {timedelta(days=index)}'
         )
-        comment.created = timezone.now() + timedelta(days=index)
         comment.save()
-    return list_comments
 
 
 @pytest.fixture

@@ -3,9 +3,9 @@ from http import HTTPStatus
 from django.contrib.auth import get_user_model
 from pytils.translit import slugify
 
-from notes.models import Note
 from notes.forms import WARNING
-from .base_test import BaseTest
+from notes.models import Note
+from notes.tests.base_test import BaseTest
 
 User = get_user_model()
 
@@ -36,7 +36,7 @@ class TestLogic(BaseTest):
         response = self.author_client.post(self.url_add_note,
                                            data=self.form_data)
         self.assertFormError(response, 'form', 'slug',
-                             errors=(self.SLUG + WARNING))
+                             errors=f'{self.SLUG}{WARNING}')
         self.assertEqual(Note.objects.count(), note_count)
 
     def test_empty_slug(self):
