@@ -1,6 +1,7 @@
 django==3.2.15
 flake8==5.0.4
 flake8-docstrings==1.7.0
+flake8-quotes==2.0.0
 pep8-naming==0.13.3
 pytils==0.4.1
 pytest==7.1.3
