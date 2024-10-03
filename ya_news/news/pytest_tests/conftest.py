@@ -1,15 +1,16 @@
 from datetime import timedelta
 
 import pytest
+from pytest_lazyfixture import lazy_fixture
 from django.conf import settings
 from django.urls import reverse
 from django.utils import timezone
 
 from news.models import Comment, News
 
-ANONYMOUS = pytest.lazy_fixture('client')
-AUTHOR = pytest.lazy_fixture('author_client')
-READER = pytest.lazy_fixture('reader_client')
+ANONYMOUS = lazy_fixture('client')
+AUTHOR = lazy_fixture('author_client')
+READER = lazy_fixture('reader_client')
 
 TITLE = 'Заголовок'
 TEXT = 'Какой-то текст'
@@ -81,8 +82,8 @@ def multiple_comments(author, news):
             author=author,
             news=news,
             text=f'{TEXT} {index}',
-            created=f'{timezone.now()} {timedelta(days=index)}'
         )
+        comment.created = timezone.now() + timedelta(days=index)
         comment.save()
 
 

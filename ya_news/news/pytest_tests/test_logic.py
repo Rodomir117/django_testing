@@ -22,9 +22,10 @@ def test_user_can_create_comment(
     detail_url,
     new_comment, news
 ):
+    comments_count = Comment.objects.count()
     response = author_client.post(detail_url, data=new_comment)
     assertRedirects(response, f'{detail_url}#comments')
-    assert Comment.objects.count() == 1
+    assert Comment.objects.count() == comments_count + 1
     comment = Comment.objects.get()
     assert comment.text == NEW_TEXT
     assert comment.news == news
@@ -32,6 +33,7 @@ def test_user_can_create_comment(
 
 
 def test_user_cant_use_bad_words(author_client, detail_url):
+    comments_count = Comment.objects.count()
     bad_words_data = {'text': f'{TEXT}, {BAD_WORDS[0]}, {TEXT}'}
     response = author_client.post(detail_url, data=bad_words_data)
     assertFormError(
@@ -40,8 +42,7 @@ def test_user_cant_use_bad_words(author_client, detail_url):
         field='text',
         errors=WARNING
     )
-    comments_count = Comment.objects.count()
-    assert comments_count == 0
+    assert Comment.objects.count() == comments_count
 
 
 def test_author_can_delete_comment(
@@ -50,9 +51,10 @@ def test_author_can_delete_comment(
     detail_url,
     comment
 ):
+    comments_count = Comment.objects.count()
     response = author_client.delete(delete_comment_url)
     assertRedirects(response, f'{detail_url}#comments')
-    assert Comment.objects.count() == 0
+    assert Comment.objects.count() == comments_count - 1
 
 
 def test_user_cant_delete_comment_of_another(
@@ -60,9 +62,10 @@ def test_user_cant_delete_comment_of_another(
     delete_comment_url,
     comment
 ):
+    comments_count = Comment.objects.count()
     response = reader_client.delete(delete_comment_url)
     assert response.status_code == HTTPStatus.NOT_FOUND
-    assert Comment.objects.count() == 1
+    assert Comment.objects.count() == comments_count
 
 
 def test_author_can_edit_comment(
