@@ -1,6 +1,6 @@
 import pytest
 
-from .conftest import ANONYMOUS, AUTHOR
+from news.pytest_tests.conftest import ANONYMOUS, AUTHOR
 
 pytestmark = [pytest.mark.django_db]
 

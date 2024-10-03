@@ -14,8 +14,7 @@ class TestLogic(BaseTest):
 
     def test_user_can_create_note(self):
         response = self.author_client.post(
-            self.url_add_note,
-            data=self.form_data
+            self.url_add_note, data=self.form_data
         )
         self.assertRedirects(response, self.url_add_success)
         notes_count = Note.objects.count()
@@ -33,17 +32,19 @@ class TestLogic(BaseTest):
     def test_unique_slug(self):
         note_count = Note.objects.count()
         self.form_data['slug'] = self.SLUG
-        response = self.author_client.post(self.url_add_note,
-                                           data=self.form_data)
-        self.assertFormError(response, 'form', 'slug',
-                             errors=f'{self.SLUG}{WARNING}')
+        response = self.author_client.post(
+            self.url_add_note, data=self.form_data)
+        self.assertFormError(
+            response, 'form', 'slug', errors=f'{self.SLUG}{WARNING}'
+        )
         self.assertEqual(Note.objects.count(), note_count)
 
     def test_empty_slug(self):
         Note.objects.all().delete()
         self.form_data.pop('slug')
-        response = self.author_client.post(self.url_add_note,
-                                           data=self.form_data)
+        response = self.author_client.post(
+            self.url_add_note, data=self.form_data
+        )
         self.assertRedirects(response, self.url_add_success)
         self.assertEqual(Note.objects.count(), 1)
         new_note = Note.objects.get(title=self.form_data['title'])
@@ -51,8 +52,9 @@ class TestLogic(BaseTest):
         self.assertEqual(new_note.title, self.form_data['title'])
 
     def test_author_can_edit_note(self):
-        response = self.author_client.post(self.url_edit_note,
-                                           data=self.form_data)
+        response = self.author_client.post(
+            self.url_edit_note, data=self.form_data
+        )
         self.assertRedirects(response, self.url_add_success)
         self.note.refresh_from_db()
         self.assertEqual(self.note.text, self.form_data['text'])
@@ -63,8 +65,9 @@ class TestLogic(BaseTest):
         self.assertEqual(Note.objects.count(), 0)
 
     def test_not_author_cant_edit_note(self):
-        response = self.reader_client.post(self.url_edit_note,
-                                           data=self.form_data)
+        response = self.reader_client.post(
+            self.url_edit_note, data=self.form_data
+        )
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
         self.note.refresh_from_db()
         self.assertNotEqual(self.note.text, self.form_data['text'])

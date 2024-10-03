@@ -1,10 +1,10 @@
 from datetime import timedelta
 
 import pytest
-from pytest_lazyfixture import lazy_fixture
 from django.conf import settings
 from django.urls import reverse
 from django.utils import timezone
+from pytest_lazyfixture import lazy_fixture
 
 from news.models import Comment, News
 
@@ -23,7 +23,8 @@ COUNT_ADD = 1
 def author(django_user_model):
     return django_user_model.objects.create(
         username='Кайл Брафловски',
-        password='jussword')
+        password='jussword'
+    )
 
 
 @pytest.fixture
@@ -36,7 +37,8 @@ def author_client(author, client):
 def reader(django_user_model):
     return django_user_model.objects.create(
         username='Эрик Картман',
-        password='fassword')
+        password='fassword'
+    )
 
 
 @pytest.fixture

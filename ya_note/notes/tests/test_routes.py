@@ -16,27 +16,55 @@ class TestRoutes(BaseTest):
             (self.url_logout, self.client, HTTPStatus.OK, self.ANONYMOUS),
             (self.url_signup, self.client, HTTPStatus.OK, self.ANONYMOUS),
             (self.url_detail, self.author_client, HTTPStatus.OK, self.AUTHOR),
-            (self.url_edit_note, self.author_client, HTTPStatus.OK,
-             self.AUTHOR),
-            (self.url_delete_note, self.author_client, HTTPStatus.OK,
-             self.AUTHOR),
-            (self.url_add_note, self.reader_client, HTTPStatus.OK,
-             self.READER),
-            (self.url_add_success, self.reader_client, HTTPStatus.OK,
-             self.READER),
+            (
+                self.url_edit_note,
+                self.author_client,
+                HTTPStatus.OK,
+                self.AUTHOR,
+            ),
+            (
+                self.url_delete_note,
+                self.author_client,
+                HTTPStatus.OK,
+                self.AUTHOR,
+            ),
+            (
+                self.url_add_note,
+                self.reader_client,
+                HTTPStatus.OK,
+                self.READER,
+            ),
+            (
+                self.url_add_success,
+                self.reader_client,
+                HTTPStatus.OK,
+                self.READER,
+            ),
             (self.url_list, self.reader_client, HTTPStatus.OK, self.READER),
-            (self.url_detail, self.reader_client, HTTPStatus.NOT_FOUND,
-             self.READER),
-            (self.url_edit_note, self.reader_client, HTTPStatus.NOT_FOUND,
-             self.READER),
-            (self.url_delete_note, self.reader_client, HTTPStatus.NOT_FOUND,
-             self.READER),
+            (
+                self.url_detail,
+                self.reader_client,
+                HTTPStatus.NOT_FOUND,
+                self.READER,
+            ),
+            (
+                self.url_edit_note,
+                self.reader_client,
+                HTTPStatus.NOT_FOUND,
+                self.READER,
+            ),
+            (
+                self.url_delete_note,
+                self.reader_client,
+                HTTPStatus.NOT_FOUND,
+                self.READER,
+            ),
         )
         for current_url, current_client, status, user in urls:
             with self.subTest():
                 self.assertEqual(
-                    current_client.get(current_url).status_code,
-                    status)
+                    current_client.get(current_url).status_code, status
+                )
 
     def test_redirects(self):
         urls = (

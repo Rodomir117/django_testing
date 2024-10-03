@@ -25,8 +25,8 @@ def test_user_can_create_comment(
     comments_count = Comment.objects.count()
     response = author_client.post(detail_url, data=new_comment)
     assertRedirects(response, f'{detail_url}#comments')
-    assert Comment.objects.count() == comments_count + 1
     comment = Comment.objects.get()
+    assert Comment.objects.count() == comments_count + 1
     assert comment.text == NEW_TEXT
     assert comment.news == news
     assert comment.author == author
@@ -88,6 +88,6 @@ def test_user_cant_edit_comment_of_another(
         new_comment,
 ):
     response = reader_client.post(edit_comment_url, data=new_comment)
-    assert response.status_code == HTTPStatus.NOT_FOUND
     comment.refresh_from_db()
+    assert response.status_code == HTTPStatus.NOT_FOUND
     assert comment.text == TEXT
