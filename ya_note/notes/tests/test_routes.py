@@ -8,8 +8,10 @@ User = get_user_model()
 
 
 class TestRoutes(BaseTest):
+    """Тесты маршрутов для разных пользователей."""
 
     def test_pages_availability(self):
+        """Доступность страниц для разных пользователей."""
         urls = (
             (self.url_home, self.client, HTTPStatus.OK, self.ANONYMOUS),
             (self.url_login, self.client, HTTPStatus.OK, self.ANONYMOUS),
@@ -67,6 +69,7 @@ class TestRoutes(BaseTest):
                 )
 
     def test_redirects(self):
+        """Перенаправления для анонимного пользователя."""
         urls = (
             self.url_add_note,
             self.url_add_success,

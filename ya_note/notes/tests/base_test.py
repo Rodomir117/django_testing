@@ -8,6 +8,7 @@ User = get_user_model()
 
 
 class BaseTest(TestCase):
+    """Базовый класс для тестов с настройкой данных."""
 
     AUTHOR = 'Кайл Брафловски'
     READER = 'Эрик Картман'
@@ -21,6 +22,7 @@ class BaseTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
+        """Создание начальных данных для тестов."""
         cls.author = User.objects.create(username=cls.AUTHOR)
         cls.author_client = Client()
         cls.author_client.force_login(cls.author)
